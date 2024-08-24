@@ -3,15 +3,16 @@ import numpy as np
 from PIL import Image
 import torch
 
+
 IMAGENET_STANDARD_MEAN = [0.5, 0.5, 0.5]
 IMAGENET_STANDARD_STD = [0.5, 0.5, 0.5]
 
 
 def resize(
-        image: Image.Image,
-        size: Dict[str, int],
-        resample: Image.Resampling = None,
-        reducing_gap: Optional[int] = None,
+    image: Image.Image,
+    size: Dict[str, int],
+    resample: Image.Resampling = None,
+    reducing_gap: Optional[int] = None,
 ) -> np.ndarray:
     height, width = size[0], size[1]
     resized_image = image.resize((width, height), resample=resample, reducing_gap=reducing_gap)
