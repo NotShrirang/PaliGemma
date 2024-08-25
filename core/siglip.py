@@ -114,8 +114,7 @@ class SiglipAttention(nn.Module):
         
         if attn_weights.size() != (batch_size, self.num_heads, sequence_length, sequence_length):
             raise ValueError(
-                f"Attention weights should be of size {(batch_size, self.num_heads, sequence_length, sequence_length)}, but is 
-                {attn_weights.size()}"
+                f"Attention weights should be of size {(batch_size, self.num_heads, sequence_length, sequence_length)}, but is {attn_weights.size()}"
             )
     
         attn_weights = nn.functional.softmax(attn_weights, dim=-1, dtype=torch.float32).to(attn_weights.dtype)
@@ -126,8 +125,7 @@ class SiglipAttention(nn.Module):
 
         if attn_output.size() != (batch_size, self.num_heads, sequence_length, self.head_dim):
             raise ValueError(
-                f"`attn_output` should be of size {(batch_size, self.num_heads, sequence_length, self.head_dim)}, but is
-                {attn_output.size()}"
+                f"`attn_output` should be of size {(batch_size, self.num_heads, sequence_length, self.head_dim)}, but is {attn_output.size()}"
             )
         
         attn_output = attn_output.transpose(1, 2).contiguous()

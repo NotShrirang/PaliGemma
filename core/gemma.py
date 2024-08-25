@@ -182,7 +182,7 @@ class GemmaAttention(nn.Module):
 
         attn_weights = torch.matmul(query_states, key_states.transpose(2, 3)) / math.sqrt(self.head_dim)
 
-        assert attention_mask is not None
+        assert attention_mask is not None, "attention_mask should not be None"
         attn_weights = attn_weights + attention_mask
 
         attn_weights = nn.functional.softmax(attn_weights, dim=-1)
@@ -335,7 +335,9 @@ class PaliGemmaForConditionalGeneration(nn.Module):
         self.multi_modal_projector = PaliGemmaMultiModalProjector(config)
         self.vocab_size = config.vocab_size
 
+        print("Loading GemmaForCausalLM")
         language_model = GemmaForCausalLM(config.text_config)
+        print("Loading GemmaForCausalLM done")
         self.language_model = language_model
 
         self.pad_token_id = self.config.pad_token_id if self.config.pad_token_id is not None else -1
@@ -378,7 +380,7 @@ class PaliGemmaForConditionalGeneration(nn.Module):
                 (batch_size, q_len, q_len), fill_value=0, dtype=dtype, device=device
             )
         else:
-            assert q_len == 1
+            assert q_len == 1, "kv_cache is not None but q_len is not 1"
             kv_cache = kv_cache.num_items() + q_len
             causal_mask = torch.full(
                 (batch_size, q_len, kv_cache), fill_value=min_dtype, dtype=dtype, device=device

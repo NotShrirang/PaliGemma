@@ -9,7 +9,7 @@ import os
 
 def load_hf_model(model_path: str, device: str) -> Tuple[PaliGemmaForConditionalGeneration, AutoTokenizer]:
     tokenizer = AutoTokenizer.from_pretrained(model_path, padding_side="right")
-    assert tokenizer.padding_side == "right"
+    assert tokenizer.padding_side == "right", "Tokenizer padding side must be right"
 
     safetensors_file = glob.glob(os.path.join(model_path, "*.safetensors"))
 
